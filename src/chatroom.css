@@ -1,0 +1,29 @@
+.chatroom {
+  margin: 0 auto;
+  background: red;
+  height: 800px;
+  width: 900px;
+  /*display: flex;
+  justify-content: center;*/
+}
+
+.chat-box {
+  background: pink;
+  width: 500px;
+  height: 600px;
+}
+
+.add-message-form {
+  /*background: blue;*/
+  width: 500px;
+  display: flex;
+}
+
+.add-message-form input {
+  width: 100%;
+}
+
+.add-message-form button {
+  padding: 5px 20px;
+  margin-left: 4px;
+}
