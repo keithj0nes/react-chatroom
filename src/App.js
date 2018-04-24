@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import firebase from 'firebase';
 import logo from './logo.svg';
 import './App.css';
-import fb from './config';
+import fbase from './config';
 
 import Chatroom from './Chatroom';
 
@@ -17,7 +16,7 @@ class App extends Component {
   // }
 
 
-  render() {
+  render() {    
     return (
       <div className="App">
         <header className="App-header">

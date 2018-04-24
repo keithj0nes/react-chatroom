@@ -1,4 +1,5 @@
 import React from 'react';
+import Message from './Message'
 import firebase from 'firebase';
 import './chatroom.css';
 
@@ -16,6 +17,22 @@ class Chatroom extends React.Component{
     }
   }
 
+  componentDidMount(){
+    // firebase.database().ref('chatroom').once('value').then((snapshot) => {
+    //   const messages = snapshot.val();
+    //   this.setState({messages})
+    // })
+    this.setMessages()
+  }
+
+  setMessages = () => {
+    console.log('setMessages');
+    firebase.database().ref('chatroom').once('value').then((snapshot) => {
+      const messages = snapshot.val();
+      this.setState({messages})
+    })
+  }
+
 
   handleInput = (e) => {
     this.setState({userMessage: e.target.value})
@@ -29,6 +46,9 @@ class Chatroom extends React.Component{
       author: this.state.user.name,
       message: this.state.userMessage
     })
+    this.setState({userMessage: ''})
+    this.setMessages()
+
   }
 
   render(){
@@ -36,9 +56,9 @@ class Chatroom extends React.Component{
       <div className="chatroom">
         <ul className="chat-box">
 
-          {this.state.messages.map((item, index) =>{
-            console.log(item, 'item');
-            return (<li>hi</li>)
+          {this.state.messages && Object.keys(this.state.messages).map((message, i) =>{
+            console.log(this.state.messages[message], 'item');
+            return (<Message key={i} message={this.state.messages[message]}/>)
           })}
         </ul>
 
