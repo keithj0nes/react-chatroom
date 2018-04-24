@@ -1,5 +1,5 @@
 import React from 'react';
-import Message from './Message'
+import Message from '../message/Message'
 import firebase from 'firebase';
 import './chatroom.css';
 
