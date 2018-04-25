@@ -17,6 +17,7 @@ class App extends Component {
         this.setState({user})
       } else {
         console.log("No user signed in");
+        this.setState({user: null})
       }
     });
   }

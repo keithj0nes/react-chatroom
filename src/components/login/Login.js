@@ -1,4 +1,5 @@
 import React from 'react';
+import firebase from 'firebase';
 
 class Login extends React.Component {
 
@@ -14,12 +15,19 @@ class Login extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     console.log(this.state);
+
+    firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((user) =>{
+      console.log(user, 'logging user');
+    })
+    .catch(err => console.log(err, 'login err'));
   }
 
   handleInputChange = (e) => {
     this.setState({[e.target.name]: e.target.value})
   }
+
   render(){
+
     return (
       <div>
 
