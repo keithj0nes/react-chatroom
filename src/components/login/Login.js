@@ -54,8 +54,8 @@ class Login extends React.Component {
 
             //update two routes using ref().update()
             let updates = {};
-            updates['/users/' + user.uid] = account;
-            updates['/online-users/' + user.uid] = account;
+            updates[`/users/${user.uid}`] = account;
+            updates[`/online-users/${user.uid}`] = account;
 
             return firebase.database().ref().update(updates);
           });
