@@ -3,25 +3,29 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
 import fbase from './config';
+import firebase from 'firebase';
 
-import Chatroom from './components/chatroom/Chatroom';
+
+import Dashboard from './components/dashboard/Dashboard';
 import Login from './components/login/Login';
 
 class App extends Component {
-  // componentDidMount(){
-  //   console.log(firebase.database(), 'ref')
-  //   // if(!firebase)
-  //   firebase.database().ref('users/2').set({
-  //     username: 'y',
-  //     email: 'yo@yo.co'
-  //   })
-  // }
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        console.log(user, 'user in onAuthStateChanged');
+        this.setState({user})
+      } else {
+        console.log("No user signed in");
+      }
+    });
+  }
 
   constructor(){
     super();
 
     this.state = {
-      user: true
+      user: null
     }
   }
 
@@ -33,11 +37,8 @@ render(){
 
         <Switch>
           <Route exact path="/" component={() => !this.state.user ? <Login /> : <Redirect to="/dashboard"/>}/>
-
-          <Route exact path="/dashboard" component={Chatroom}/>
-
+          <Route exact path="/dashboard" component={() => this.state.user ? <Dashboard /> : <Redirect to="/"/>}/>
           <Route component={() => !this.state.user ? <Login /> : <Redirect to="/dashboard"/>}/>
-
         </Switch>
 
     </BrowserRouter>
