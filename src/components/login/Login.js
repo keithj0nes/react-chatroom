@@ -21,29 +21,25 @@ class Login extends React.Component {
     console.log(this.state);
 
     if(this.state.formType === 'login'){
+      // login //
       firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((user) =>{
-        console.log(user, 'logging user');
+        firebase.database().ref(`users/${user.uid}`).once('value').then((snapshot) => {
+          let account = snapshot.val();
+          account.isOnline = true;
+          //update two routes using ref().update()
+          let updates = {};
+          updates[`/users/${user.uid}/isOnline`] = true;
+          updates[`/online-users/${user.uid}`] = account;
 
-      //   firebase.database().ref('users/' + user.uid).once('value')
-      //         .then((snapshot) => {
-      //           const userProfile = snapshot.val();
-      //           // console.log(userProfile);
-      //           firebase
-      //             .database()
-      //             .ref('onlineUsers/' + user.uid)
-      //             .set(userProfile.account);
-      //           resolve(dispatch(userSet(userProfile)));
-      //         })
-      //         .then(() => {
-      //           history.push('/dashboard');
-      //         });
+          return firebase.database().ref().update(updates);
+        })
       })
       .catch(err => console.log(err, 'login err'));
+
     } else {
-      console.log('signing up');
+      // signup //
       firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then((user) => {
           return user.updateProfile({displayName: this.state.displayName, photoURL: "https://www.vccircle.com/wp-content/uploads/2017/03/default-profile.png"}).then(() => {
-
             let account = {};
             account.uid = user.uid;
             account.email = this.state.email.toLowerCase();
@@ -51,6 +47,7 @@ class Login extends React.Component {
             account.displayName = this.state.displayName;
             account.timeZone =  Intl.DateTimeFormat().resolvedOptions().timeZone;
             account.isOnline = true;
+            account.photoURL = "https://www.vccircle.com/wp-content/uploads/2017/03/default-profile.png";
 
             //update two routes using ref().update()
             let updates = {};
