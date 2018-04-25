@@ -13,7 +13,7 @@ class App extends Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        console.log(user, 'user in onAuthStateChanged');
+        console.log(user.email, 'user in onAuthStateChanged');
         this.setState({user})
       } else {
         console.log("No user signed in");
